@@ -1,5 +1,4 @@
 import { ActionType } from './action';
-import { ActionType as errorActionType } from '../error/action';
 
 export default function threadsReducer(threads = [], action = {}) {
   switch (action.type) {
@@ -64,8 +63,7 @@ export default function threadsReducer(threads = [], action = {}) {
         }
         return thread;
       });
-    case errorActionType.ERROR:
-      return action.payload.error;
+
     default:
       return threads;
   }
