@@ -1,14 +1,14 @@
 import { ActionType } from './action';
 import { ActionType as errorActionType } from '../error/action';
 
-export default function threadsReducer(state = [], action = {}) {
+export default function threadsReducer(threads = [], action = {}) {
   switch (action.type) {
     case ActionType.RECEIVE_THREADS:
       return action.payload.threads;
     case ActionType.CREATE_THREAD:
-      return [action.payload.thread, ...state];
+      return [action.payload.thread, ...threads];
     case ActionType.UP_VOTE_THREAD:
-      return state.map((thread) => {
+      return threads.map((thread) => {
         if (thread.id === action.payload.threadId) {
           return {
             ...thread,
@@ -27,7 +27,7 @@ export default function threadsReducer(state = [], action = {}) {
         return thread;
       });
     case ActionType.DOWN_VOTE_THREAD:
-      return state.map((thread) => {
+      return threads.map((thread) => {
         if (thread.id === action.payload.threadId) {
           return {
             ...thread,
@@ -46,7 +46,7 @@ export default function threadsReducer(state = [], action = {}) {
         return thread;
       });
     case ActionType.NETURALIZE_VOTE_THREAD:
-      return state.map((thread) => {
+      return threads.map((thread) => {
         if (thread.id === action.payload.vote.threadId) {
           return {
             ...thread,
@@ -67,6 +67,6 @@ export default function threadsReducer(state = [], action = {}) {
     case errorActionType.ERROR:
       return action.payload.error;
     default:
-      return state;
+      return threads;
   }
 }
