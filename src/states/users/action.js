@@ -1,5 +1,5 @@
 import api from '../../utils/api';
-import errorActionCreator from '../error/action';
+import { errorActionCreator } from '../error/action';
 
 const ActionType = {
   RECEIVE_USERS: 'RECEIVE_USERS',
