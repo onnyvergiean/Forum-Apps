@@ -18,15 +18,15 @@ const api = (() => {
     localStorage.setItem('accessToken', token);
   }
 
-  async function register({ id, name, password }) {
+  async function register({ name, email, password }) {
     const response = await fetch(`${BASE_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id,
         name,
+        email,
         password,
       }),
     });
@@ -106,14 +106,16 @@ const api = (() => {
     return users;
   }
 
-  async function createThread({ content }) {
+  async function createThread({ title, body, category }) {
     const response = await _fetchWithAuth(`${BASE_URL}/threads`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        content,
+        title,
+        body,
+        category,
       }),
     });
     const responseJson = await response.json();
@@ -206,10 +208,6 @@ const api = (() => {
     if (status !== 'success') {
       throw new Error(message);
     }
-    const {
-      data: { vote },
-    } = responseJson;
-    return vote;
   }
   async function downVoteThread(id) {
     const response = await _fetchWithAuth(
@@ -227,10 +225,6 @@ const api = (() => {
     if (status !== 'success') {
       throw new Error(message);
     }
-    const {
-      data: { vote },
-    } = responseJson;
-    return vote;
   }
   async function neutralizeThreadVote(id) {
     const response = await _fetchWithAuth(
@@ -248,13 +242,9 @@ const api = (() => {
     if (status !== 'success') {
       throw new Error(message);
     }
-    const {
-      data: { vote },
-    } = responseJson;
-    return vote;
   }
 
-  async function upVoteComment({ threadId, commentId }) {
+  async function upVoteComment(threadId, commentId) {
     const response = await _fetchWithAuth(
       `${BASE_URL}/threads/${threadId}/comments/${commentId}/up-vote`,
       {
@@ -274,7 +264,7 @@ const api = (() => {
     } = responseJson;
     return vote;
   }
-  async function downVoteComment({ threadId, commentId }) {
+  async function downVoteComment(threadId, commentId) {
     const response = await _fetchWithAuth(
       `${BASE_URL}/threads/${threadId}/comments/${commentId}/down-vote`,
       {
@@ -294,7 +284,7 @@ const api = (() => {
     } = responseJson;
     return vote;
   }
-  async function neutralVoteComment({ threadId, commentId }) {
+  async function neutralVoteComment(threadId, commentId) {
     const response = await _fetchWithAuth(
       `${BASE_URL}/threads/${threadId}/comments/${commentId}/neutral-vote`,
       {
