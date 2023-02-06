@@ -14,7 +14,7 @@ function receiveLeaderboardsActionCreator(leaderboards) {
   };
 }
 
-function populateLeaderboards() {
+function asyncPopulateLeaderboards() {
   return async (dispatch) => {
     dispatch(showLoading());
     try {
@@ -27,4 +27,8 @@ function populateLeaderboards() {
   };
 }
 
-export { ActionType, receiveLeaderboardsActionCreator, populateLeaderboards };
+export {
+  ActionType,
+  receiveLeaderboardsActionCreator,
+  asyncPopulateLeaderboards,
+};

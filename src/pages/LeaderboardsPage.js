@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Card, Typography, Grid } from '@mui/material';
-import { populateLeaderboards } from '../states/leaderboards/action';
+import { asyncPopulateLeaderboards } from '../states/leaderboards/action';
 import LeaderBoardItem from '../components/LeaderboardItem';
 
 export default function LeaderboardsPage() {
@@ -9,7 +9,7 @@ export default function LeaderboardsPage() {
   const { leaderboards = [] } = useSelector((states) => states);
 
   useEffect(() => {
-    dispatch(populateLeaderboards());
+    dispatch(asyncPopulateLeaderboards());
   }, [dispatch]);
 
   return (
