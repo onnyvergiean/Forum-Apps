@@ -8,13 +8,11 @@ export default function threadDetailReducer(threadDetail = null, action = {}) {
       return {
         ...threadDetail,
         upVotesBy: threadDetail.upVotesBy.includes(action.payload.userId)
-          ? threadDetail.upVotesBy.filter(
-              (userId) => userId !== action.payload.userId
-            )
+          ? threadDetail.upVotesBy.filter((id) => id !== action.payload.userId)
           : threadDetail.upVotesBy.concat([action.payload.userId]),
         downVotesBy: threadDetail.downVotesBy.includes(action.payload.userId)
           ? threadDetail.downVotesBy.filter(
-              (userId) => userId !== action.payload.userId
+              (id) => id !== action.payload.userId
             )
           : threadDetail.downVotesBy,
       };
@@ -22,13 +20,11 @@ export default function threadDetailReducer(threadDetail = null, action = {}) {
       return {
         ...threadDetail,
         upVotesBy: threadDetail.upVotesBy.includes(action.payload.userId)
-          ? threadDetail.upVotesBy.filter(
-              (userId) => userId !== action.payload.userId
-            )
+          ? threadDetail.upVotesBy.filter((id) => id !== action.payload.userId)
           : threadDetail.upVotesBy,
         downVotesBy: threadDetail.downVotesBy.includes(action.payload.userId)
           ? threadDetail.downVotesBy.filter(
-              (userId) => userId !== action.payload.userId
+              (id) => id !== action.payload.userId
             )
           : threadDetail.downVotesBy.concat([action.payload.userId]),
       };
@@ -36,23 +32,18 @@ export default function threadDetailReducer(threadDetail = null, action = {}) {
       return {
         ...threadDetail,
         upVotesBy: threadDetail.upVotesBy.includes(action.payload.userId)
-          ? threadDetail.upVotesBy.filter(
-              (userId) => userId !== action.payload.userId
-            )
+          ? threadDetail.upVotesBy.filter((id) => id !== action.payload.userId)
           : threadDetail.upVotesBy,
         downVotesBy: threadDetail.downVotesBy.includes(action.payload.userId)
           ? threadDetail.downVotesBy.filter(
-              (userId) => userId !== action.payload.userId
+              (id) => id !== action.payload.userId
             )
           : threadDetail.downVotesBy,
       };
     case ActionType.CREATE_COMMENT:
       return {
         ...threadDetail,
-        comments: threadDetail.comments.concat([
-          action.payload.comment,
-          ...threadDetail.comments,
-        ]),
+        comments: [action.payload.comment, ...threadDetail.comments],
       };
     case ActionType.UP_VOTE_COMMENT:
       return {
@@ -62,13 +53,11 @@ export default function threadDetailReducer(threadDetail = null, action = {}) {
             return {
               ...comment,
               upVotesBy: comment.upVotesBy.includes(action.payload.userId)
-                ? comment.upVotesBy.filter(
-                    (userId) => userId !== action.payload.userId
-                  )
+                ? comment.upVotesBy.filter((id) => id !== action.payload.userId)
                 : comment.upVotesBy.concat([action.payload.userId]),
               downVotesBy: comment.downVotesBy.includes(action.payload.userId)
                 ? comment.downVotesBy.filter(
-                    (userId) => userId !== action.payload.userId
+                    (id) => id !== action.payload.userId
                   )
                 : comment.downVotesBy,
             };
@@ -84,13 +73,11 @@ export default function threadDetailReducer(threadDetail = null, action = {}) {
             return {
               ...comment,
               upVotesBy: comment.upVotesBy.includes(action.payload.userId)
-                ? comment.upVotesBy.filter(
-                    (userId) => userId !== action.payload.userId
-                  )
+                ? comment.upVotesBy.filter((id) => id !== action.payload.userId)
                 : comment.upVotesBy,
               downVotesBy: comment.downVotesBy.includes(action.payload.userId)
                 ? comment.downVotesBy.filter(
-                    (userId) => userId !== action.payload.userId
+                    (id) => id !== action.payload.userId
                   )
                 : comment.downVotesBy.concat([action.payload.userId]),
             };
@@ -106,13 +93,11 @@ export default function threadDetailReducer(threadDetail = null, action = {}) {
             return {
               ...comment,
               upVotesBy: comment.upVotesBy.includes(action.payload.userId)
-                ? comment.upVotesBy.filter(
-                    (userId) => userId !== action.payload.userId
-                  )
+                ? comment.upVotesBy.filter((id) => id !== action.payload.userId)
                 : comment.upVotesBy,
               downVotesBy: comment.downVotesBy.includes(action.payload.userId)
                 ? comment.downVotesBy.filter(
-                    (userId) => userId !== action.payload.userId
+                    (id) => id !== action.payload.userId
                   )
                 : comment.downVotesBy,
             };

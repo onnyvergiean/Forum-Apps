@@ -1,5 +1,5 @@
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import api from '../../utils/api';
-import { errorActionCreator } from '../error/action';
 
 const ActionType = {
   RECEIVE_THREADS: 'RECEIVE_THREADS',
@@ -59,12 +59,14 @@ function neturalizeVoteThreadActionCreator({ threadId, userId }) {
 
 function asyncCreateThread({ title, body, category }) {
   return async (dispatch) => {
+    dispatch(showLoading());
     try {
       const thread = await api.createThread({ title, body, category });
       dispatch(createThreadActionCreator(thread));
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
+    dispatch(hideLoading());
   };
 }
 
@@ -73,9 +75,9 @@ function asyncUpVoteThread(threadId) {
     const { authUser } = getState();
     dispatch(upVoteThreadActionCreator({ threadId, userId: authUser.id }));
     try {
-      await api.upVoteThread({ threadId });
+      await api.upVoteThread(threadId);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
       dispatch(downVoteThreadActionCreator({ threadId, userId: authUser.id }));
     }
   };
@@ -86,9 +88,9 @@ function asyncDownVoteThread(threadId) {
     const { authUser } = getState();
     dispatch(downVoteThreadActionCreator({ threadId, userId: authUser.id }));
     try {
-      await api.downVoteThread({ threadId });
+      await api.downVoteThread(threadId);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
       dispatch(downVoteThreadActionCreator({ threadId, userId: authUser.id }));
     }
   };
@@ -101,9 +103,9 @@ function asyncNeturalizeVoteThread(threadId) {
       neturalizeVoteThreadActionCreator({ threadId, userId: authUser.id })
     );
     try {
-      await api.neturalizeVoteThread({ threadId });
+      await api.neutralizeThreadVote(threadId);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
       dispatch(
         neturalizeVoteThreadActionCreator({ threadId, userId: authUser.id })
       );

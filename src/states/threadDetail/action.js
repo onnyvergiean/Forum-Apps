@@ -1,5 +1,5 @@
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import api from '../../utils/api';
-import { errorActionCreator } from '../error/action';
 
 const ActionType = {
   RECEIVE_THREAD_DETAIL: 'RECEIVE_THREAD_DETAIL',
@@ -55,7 +55,7 @@ function createCommentActionCreator(comment) {
   };
 }
 
-function upVoteCommentActionCreator({ commentId, userId }) {
+function upVoteCommentActionCreator(commentId, userId) {
   return {
     type: ActionType.UP_VOTE_COMMENT,
     payload: {
@@ -65,7 +65,7 @@ function upVoteCommentActionCreator({ commentId, userId }) {
   };
 }
 
-function downVoteCommentActionCreator({ commentId, userId }) {
+function downVoteCommentActionCreator(commentId, userId) {
   return {
     type: ActionType.DOWN_VOTE_COMMENT,
     payload: {
@@ -75,7 +75,7 @@ function downVoteCommentActionCreator({ commentId, userId }) {
   };
 }
 
-function neutralizeVoteCommentActionCreator({ commentId, userId }) {
+function neutralizeVoteCommentActionCreator(commentId, userId) {
   return {
     type: ActionType.NEUTRALIZE_VOTE_COMMENT,
     payload: {
@@ -87,12 +87,14 @@ function neutralizeVoteCommentActionCreator({ commentId, userId }) {
 
 function asyncReceiveThreadDetail(threadId) {
   return async (dispatch) => {
+    dispatch(showLoading());
     try {
       const threadDetail = await api.getThreadDetail(threadId);
       dispatch(receiveThreadDetailActionCreator(threadDetail));
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
+    dispatch(hideLoading());
   };
 }
 
@@ -103,7 +105,7 @@ function asyncUpVoteThreadDetail() {
     try {
       await api.upVoteThread(threadDetail.id);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
   };
 }
@@ -114,7 +116,7 @@ function asyncDownVoteThreadDetail() {
     try {
       await api.downVoteThread(threadDetail.id);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
   };
 }
@@ -126,13 +128,14 @@ function asyncNeutralizeVoteThreadDetail() {
     try {
       await api.neutralVoteComment(threadDetail.id);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
   };
 }
 
 function asyncCreateComment({ content }) {
   return async (dispatch, getState) => {
+    dispatch(showLoading());
     const { threadDetail } = getState();
     try {
       const comment = await api.createComment({
@@ -141,19 +144,20 @@ function asyncCreateComment({ content }) {
       });
       dispatch(createCommentActionCreator(comment));
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
+    dispatch(hideLoading());
   };
 }
 
 function asyncUpVoteComment(commentId) {
   return async (dispatch, getState) => {
     const { authUser, threadDetail } = getState();
+    dispatch(upVoteCommentActionCreator(commentId, authUser.id));
     try {
-      await api.upVoteComment({ commentId, userId: authUser.id });
-      dispatch(upVoteCommentActionCreator(threadDetail.id, commentId));
+      await api.upVoteComment(threadDetail.id, commentId);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
   };
 }
@@ -161,11 +165,11 @@ function asyncUpVoteComment(commentId) {
 function asyncDownVoteComment(commentId) {
   return async (dispatch, getState) => {
     const { authUser, threadDetail } = getState();
+    dispatch(downVoteCommentActionCreator(commentId, authUser.id));
     try {
-      await api.downVoteComment({ commentId, userId: authUser.id });
-      dispatch(downVoteCommentActionCreator(threadDetail.id, commentId));
+      await api.downVoteComment(threadDetail.id, commentId);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
   };
 }
@@ -173,11 +177,11 @@ function asyncDownVoteComment(commentId) {
 function asyncNeutralizeVoteComment(commentId) {
   return async (dispatch, getState) => {
     const { authUser, threadDetail } = getState();
+    dispatch(neutralizeVoteCommentActionCreator(commentId, authUser.id));
     try {
-      await api.neutralVoteComment({ commentId, userId: authUser.id });
-      dispatch(neutralizeVoteCommentActionCreator(threadDetail.id, commentId));
+      await api.neutralVoteComment(threadDetail.id, commentId);
     } catch (error) {
-      dispatch(errorActionCreator(error.message));
+      alert(error.message);
     }
   };
 }
