@@ -2,7 +2,8 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true
+    "node": true,
+    "cypress/globals": true
   },
   "extends": ["plugin:react/recommended", "airbnb"],
   "parserOptions": {
@@ -12,7 +13,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "cypress"],
   "rules": {
     "react/jsx-filename-extension": "off",
     "comma-dangle": "off",
@@ -22,6 +23,8 @@
     "react/jsx-props-no-spreading": "off",
     "object-curly-newline": "off",
     "react/jsx-one-expression-per-line": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }
